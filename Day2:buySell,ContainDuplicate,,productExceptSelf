@@ -1,0 +1,124 @@
+Stock Buy And Sell
+Problem Statement: You are given an array of prices where prices[i] is the price of a given stock on an ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+solution->
+import.java.util.*;
+class Solution {
+    // Function to calculate maximum profit using single pass
+    public int stockbuySell(int[] prices) {
+        // Initialize the minimum price to a large number
+        int minPrice = Integer.MAX_VALUE;
+
+        // Initialize the maximum profit to 0
+        int maxProfit = 0;
+
+        // Traverse each price in the array
+        for (int price : prices) {
+            // If current price is less than minPrice, update minPrice
+            if (price < minPrice) {
+                minPrice = price;
+            }
+            // Else calculate profit and update maxProfit if it's greater
+            else {
+                maxProfit = Math.max(maxProfit, price - minPrice);
+            }
+        }
+
+        // Return the maximum profit found
+        return maxProfit;
+    }
+}
+
+// Driver code
+class Main {
+    public static void main(String[] args) {
+        Solution obj = new Solution();
+        int[] prices = {7, 1, 5, 3, 6, 4};
+
+        System.out.println(obj.stockbuySell(prices));
+    }
+}
+
+
+Contains Duplicate : Check if a value appears atleast twice
+
+
+3
+Problem Statement: Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+solution->
+// Solution class containing the method
+class Solution {
+    // Function to check for duplicates using sorting
+    public boolean containsDuplicate(int[] nums) {
+        // Sort the array to bring duplicates together
+        Arrays.sort(nums);
+
+        // Compare each element with its previous one
+        for (int index = 1; index < nums.length; index++) {
+            if (nums[index] == nums[index - 1]) {
+                return true; // Duplicate found
+            }
+        }
+
+        return false; // No duplicates
+    }
+}
+
+// Main class to run the program
+public class Main {
+    public static void main(String[] args) {
+        // Sample input array
+        int[] nums = {1, 2, 3, 1};
+
+        // Create object of Solution class
+        Solution sol = new Solution();
+
+        // Call the function
+        boolean res = sol.containsDuplicate(nums);
+
+        // Print result
+        System.out.println(res ? "true" : "false");
+    }
+}
+
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+Example 2:
+
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+
+solutio->
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+      int n = nums.length;
+      int[] answer = new int[n];
+      answer[0] = 1;
+        for (int i = 1; i < n; i++) {
+            // answer[i] is the product of nums[0] * nums[1] * ... * nums[i-1]
+            answer[i] = answer[i - 1] * nums[i - 1];
+        }
+         int rightProduct = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            // For each answer[i], it currently holds the product of elements to its left.
+            // We multiply it by the 'rightProduct' (which contains the product of elements
+            // to its right for the current iteration) to get the final result.
+            answer[i] = answer[i] * rightProduct;
+
+            // Update 'rightProduct' for the next iteration (moving leftwards).
+            // It now includes nums[i] for the calculation of the next element to its left.
+            rightProduct = rightProduct * nums[i];
+        }
+         return answer;
+  
+    }
+}
