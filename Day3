@@ -1,0 +1,53 @@
+Kadane's Algorithm : Maximum Subarray Sum in an Array
+Problem Statement: Given an integer array nums, find the subarray with the largest sum and return the sum of the elements present in that subarray.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+solution: 
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int cs = nums[0]; 
+        int ms = nums[0]; 
+
+        for (int i = 1; i < nums.length; i++) {
+            cs = Math.max(nums[i], cs + nums[i]); 
+            ms = Math.max(ms, cs); 
+        }
+
+        return ms;
+    }
+}
+
+Maximum Product Subarray in an Array
+Problem Statement: Given an array that contains both negative and positive integers, find the maximum product subarray. 
+solution:
+class Solution {
+    public int maxProduct(int[] nums) {
+
+        int maxProd = nums[0];
+        int minProd = nums[0];
+        int ans = nums[0];
+
+        for(int i = 1; i < nums.length; i++) {
+
+            int curr = nums[i];
+
+            int tempMax = Math.max(
+                curr,
+                Math.max(maxProd * curr, minProd * curr)
+            );
+
+            int tempMin = Math.min(
+                curr,
+                Math.min(maxProd * curr, minProd * curr)
+            );
+
+            maxProd = tempMax;
+            minProd = tempMin;
+
+            ans = Math.max(ans, maxProd);
+        }
+
+        return ans;
+    }
+}
